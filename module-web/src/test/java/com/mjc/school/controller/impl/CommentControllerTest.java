@@ -3,6 +3,8 @@ package com.mjc.school.controller.impl;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.json.JSONObject;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,11 +18,15 @@ public class CommentControllerTest extends BaseControllerTest {
     private String createdCommentContent;
     private int createdCommentNewsId;
 
-    @BeforeEach
-    public void prepareComment() {
+    @BeforeAll
+    public void prepareEntities() {
         initAuthor();
         initTag();
         initNews(preparedAuthorId, preparedTagId);
+    }
+
+    @BeforeEach
+    public void prepareComment() {
         JSONObject params = new JSONObject();
         params.put("content", "comment content");
         params.put("newsId", preparedNewsId);
@@ -36,12 +42,12 @@ public class CommentControllerTest extends BaseControllerTest {
     @Test
     public void createComment() {
         JSONObject params = new JSONObject();
-        params.put("content", "comment content");
+        params.put("content", "comment");
         params.put("newsId", preparedNewsId);
         request.body(params.toString())
                 .post(COMMENTS)
                 .then()
-                .body("content", equalTo(createdCommentContent))
+                .body("content", equalTo("comment"))
                 .body("newsId", equalTo(createdCommentNewsId))
                 .body("createDate", notNullValue())
                 .body("lastUpdateDate", notNullValue())

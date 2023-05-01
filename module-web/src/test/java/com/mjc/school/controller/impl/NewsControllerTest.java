@@ -2,8 +2,7 @@ package com.mjc.school.controller.impl;
 
 import io.restassured.path.json.JsonPath;
 import org.json.JSONObject;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.util.List;
 
@@ -19,10 +18,14 @@ public class NewsControllerTest extends BaseControllerTest {
     public List<Long> tagIds;
     public int authorId;
 
-    @BeforeEach
-    public void prepareNews() {
+    @BeforeAll
+    public void prepareEntities() {
         initAuthor();
         initTag();
+    }
+
+    @BeforeEach
+    public void prepareNews() {
         JsonPath rs = initNews(preparedAuthorId, preparedTagId);
         newsId = rs.get("id");
         newsTitle = rs.get("title");
@@ -31,10 +34,13 @@ public class NewsControllerTest extends BaseControllerTest {
         authorId = rs.get("authorId");
     }
 
+    @AfterEach
+    public void deletePreparedNews() {
+        cleanNews(newsId);
+    }
+
     @Test
     public void createNews() {
-        initAuthor();
-        initTag();
         JSONObject params = new JSONObject();
         String title = "news title";
         String content = "news content";

@@ -1,6 +1,5 @@
 package com.mjc.school.controller.impl;
 
-import io.restassured.specification.RequestSpecification;
 import org.json.JSONObject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,7 +33,7 @@ public class AuthorControllerTest extends BaseControllerTest {
     @Test
     public void createAuthor() {
         JSONObject requestParams = new JSONObject();
-        String name = "Olia tester";
+        String name = "Oliaka test";
         requestParams.put("name", name);
         request.body(requestParams.toString())
                 .post(AUTHORS)
