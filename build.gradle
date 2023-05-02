@@ -39,10 +39,10 @@ subprojects {
         implementation("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
         implementation("org.springframework.boot:spring-boot-starter-validation:${springBootVersion}")
 
-      //  implementation group: 'io.springfox', name: 'springfox-swagger2', version: '3.0.0'
-      //  implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '3.0.0'
+        implementation group: 'io.springfox', name: 'springfox-swagger2', version: '3.0.0'
+        implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '3.0.0'
 
-        implementation 'org.springdoc:springdoc-openapi-ui:1.6.12'
+      //  implementation 'org.springdoc:springdoc-openapi-ui:1.6.12'
 
 //        testImplementation "org.springframework:spring-test:$springVersion"
         testImplementation "org.junit.jupiter:junit-jupiter-api:$jupiterVersion"

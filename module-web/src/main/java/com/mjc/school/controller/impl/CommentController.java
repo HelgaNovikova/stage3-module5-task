@@ -6,9 +6,9 @@ import com.mjc.school.service.BaseService;
 import com.mjc.school.service.ExtraCommentService;
 import com.mjc.school.service.dto.CommentCreateDto;
 import com.mjc.school.service.dto.CommentResponseDto;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -32,10 +32,10 @@ public class CommentController implements BaseController<CommentCreateDto, Comme
 
     @Override
     @GetMapping
-    @Operation(summary = "Get all comments")
+    @ApiOperation(value = "Get all comments")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved comments"),
-            @ApiResponse(responseCode = "400", description = "Invalid parameters supplied")})
+            @ApiResponse(code = 200, message = "Successfully retrieved comments"),
+            @ApiResponse(code = 400, message = "Invalid parameters supplied")})
     @ResponseStatus(HttpStatus.OK)
     public List<CommentResponseDto> readAll(@RequestParam(defaultValue = "1", required = false) Integer page,
                                             @RequestParam(defaultValue = "10", required = false) Integer size,
@@ -45,10 +45,10 @@ public class CommentController implements BaseController<CommentCreateDto, Comme
 
     @Override
     @GetMapping(value = "/{id:\\d+}")
-    @Operation(summary = "Get comment by id")
+    @ApiOperation(value = "Get comment by id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved the comment"),
-            @ApiResponse(responseCode = "404", description = "Comment was not found")})
+            @ApiResponse(code = 200, message = "Successfully retrieved the comment"),
+            @ApiResponse(code = 404, message = "Comment was not found")})
     @ResponseStatus(HttpStatus.OK)
     public CommentResponseDto readById(@PathVariable Long id) {
         return this.commentService.readById(id);
@@ -56,10 +56,10 @@ public class CommentController implements BaseController<CommentCreateDto, Comme
 
     @Override
     @PostMapping()
-    @Operation(summary = "Create a comment")
+    @ApiOperation(value = "Create a comment")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Successfully created the comment"),
-            @ApiResponse(responseCode = "400", description = "Invalid parameters supplied")})
+            @ApiResponse(code = 201, message = "Successfully created the comment"),
+            @ApiResponse(code = 400, message = "Invalid parameters supplied")})
     @ResponseStatus(HttpStatus.CREATED)
     public CommentResponseDto create(@Valid @RequestBody CommentCreateDto createRequest) {
         return this.commentService.create(createRequest);
@@ -67,11 +67,11 @@ public class CommentController implements BaseController<CommentCreateDto, Comme
 
     @Override
     @PutMapping(value = "/{id:\\d+}")
-    @Operation(summary = "Update the comment")
+    @ApiOperation(value = "Update the comment")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully updated the comment"),
-            @ApiResponse(responseCode = "400", description = "Invalid parameters supplied"),
-            @ApiResponse(responseCode = "404", description = "Comment does not exist")})
+            @ApiResponse(code = 200, message = "Successfully updated the comment"),
+            @ApiResponse(code = 400, message = "Invalid parameters supplied"),
+            @ApiResponse(code = 404, message = "Comment does not exist")})
     @ResponseStatus(HttpStatus.OK)
     public CommentResponseDto update(@PathVariable Long id, @Valid @RequestBody CommentCreateDto updateRequest) {
         return this.commentService.update(id, updateRequest);
@@ -79,10 +79,10 @@ public class CommentController implements BaseController<CommentCreateDto, Comme
 
     @Override
     @DeleteMapping(value = "/{id:\\d+}")
-    @Operation(summary = "Delete the comment")
+    @ApiOperation(value = "Delete the comment")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Successfully deleted the comment"),
-            @ApiResponse(responseCode = "404", description = "Comment does not exist")})
+            @ApiResponse(code = 204, message = "Successfully deleted the comment"),
+            @ApiResponse(code = 404, message = "Comment does not exist")})
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(@PathVariable Long id) {
         this.commentService.deleteById(id);
@@ -90,11 +90,11 @@ public class CommentController implements BaseController<CommentCreateDto, Comme
 
     @Override
     @PatchMapping(value = "/{id:\\d+}")
-    @Operation(summary = "Update the comment")
+    @ApiOperation(value = "Update the comment")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully updated the comment"),
-            @ApiResponse(responseCode = "400", description = "Invalid parameters supplied"),
-            @ApiResponse(responseCode = "404", description = "Comment does not exist")})
+            @ApiResponse(code = 200, message = "Successfully updated the comment"),
+            @ApiResponse(code = 400, message = "Invalid parameters supplied"),
+            @ApiResponse(code = 404, message = "Comment does not exist")})
     @ResponseStatus(HttpStatus.OK)
     public CommentResponseDto patchById(@PathVariable Long id, @Valid @RequestBody CommentCreateDto createRequest) {
         return this.commentService.patchById(id, createRequest);
@@ -102,10 +102,10 @@ public class CommentController implements BaseController<CommentCreateDto, Comme
 
     @Override
     @GetMapping(value = "/by-news-id/{id:\\d+}")
-    @Operation(summary = "Get comments by newsId")
+    @ApiOperation(value = "Get comments by newsId")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved the comments"),
-            @ApiResponse(responseCode = "404", description = "News does not exist")})
+            @ApiResponse(code = 200, message = "Successfully retrieved the comments"),
+            @ApiResponse(code = 404, message = "News does not exist")})
     @ResponseStatus(HttpStatus.OK)
     public List<CommentResponseDto> getCommentsByNewsId(@PathVariable Long id) {
         return this.extraCommentService.getCommentsByNewsId(id);

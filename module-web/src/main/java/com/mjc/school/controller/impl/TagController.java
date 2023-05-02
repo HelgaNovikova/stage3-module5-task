@@ -6,9 +6,9 @@ import com.mjc.school.service.BaseService;
 import com.mjc.school.service.ExtraTagService;
 import com.mjc.school.service.dto.TagCreateDto;
 import com.mjc.school.service.dto.TagResponseDto;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,10 +29,10 @@ public class TagController implements BaseController<TagCreateDto, TagResponseDt
 
     @Override
     @GetMapping
-    @Operation(summary = "Get all tags")
+    @ApiOperation(value = "Get all tags")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved tags"),
-            @ApiResponse(responseCode = "400", description = "Invalid parameters supplied")})
+            @ApiResponse(code = 200, message = "Successfully retrieved tags"),
+            @ApiResponse(code = 400, message = "Invalid parameters supplied")})
     @ResponseStatus(HttpStatus.OK)
     public List<TagResponseDto> readAll(@RequestParam(defaultValue = "1", required = false) Integer page,
                                         @RequestParam(defaultValue = "10", required = false) Integer size,
@@ -42,10 +42,10 @@ public class TagController implements BaseController<TagCreateDto, TagResponseDt
 
     @Override
     @GetMapping(value = "/{id:\\d+}")
-    @Operation(summary = "Get tag by id")
+    @ApiOperation(value = "Get tag by id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved the tag"),
-            @ApiResponse(responseCode = "404", description = "Tag was not found")})
+            @ApiResponse(code = 200, message = "Successfully retrieved the tag"),
+            @ApiResponse(code = 404, message = "Tag was not found")})
     @ResponseStatus(HttpStatus.OK)
     public TagResponseDto readById(@PathVariable Long id) {
         return this.tagService.readById(id);
@@ -53,10 +53,10 @@ public class TagController implements BaseController<TagCreateDto, TagResponseDt
 
     @Override
     @GetMapping(value = "/byName/{name}")
-    @Operation(summary = "Get tag by name")
+    @ApiOperation(value = "Get tag by name")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved the tag"),
-            @ApiResponse(responseCode = "404", description = "Tag was not found")})
+            @ApiResponse(code = 200, message = "Successfully retrieved the tag"),
+            @ApiResponse(code = 404, message = "Tag was not found")})
     @ResponseStatus(HttpStatus.OK)
     public List<TagResponseDto> readByName(@PathVariable String name) {
         return this.extraTagService.readByName(name);
@@ -64,10 +64,10 @@ public class TagController implements BaseController<TagCreateDto, TagResponseDt
 
     @Override
     @PostMapping()
-    @Operation(summary = "Create a tag")
+    @ApiOperation(value = "Create a tag")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Successfully created the tag"),
-            @ApiResponse(responseCode = "400", description = "Invalid parameters supplied")})
+            @ApiResponse(code = 201, message = "Successfully created the tag"),
+            @ApiResponse(code = 400, message = "Invalid parameters supplied")})
     @ResponseStatus(HttpStatus.CREATED)
     public TagResponseDto create(@Valid @RequestBody TagCreateDto createRequest) {
         return this.tagService.create(createRequest);
@@ -75,11 +75,11 @@ public class TagController implements BaseController<TagCreateDto, TagResponseDt
 
     @Override
     @PutMapping(value = "/{id:\\d+}")
-    @Operation(summary = "Update the tag")
+    @ApiOperation(value = "Update the tag")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully updated the tag"),
-            @ApiResponse(responseCode = "400", description = "Invalid parameters supplied"),
-            @ApiResponse(responseCode = "404", description = "Tag does not exist")})
+            @ApiResponse(code = 200, message = "Successfully updated the tag"),
+            @ApiResponse(code = 400, message = "Invalid parameters supplied"),
+            @ApiResponse(code = 404, message = "Tag does not exist")})
     @ResponseStatus(HttpStatus.OK)
     public TagResponseDto update(@PathVariable Long id, @Valid @RequestBody TagCreateDto updateRequest) {
         return this.tagService.update(id, updateRequest);
@@ -87,10 +87,10 @@ public class TagController implements BaseController<TagCreateDto, TagResponseDt
 
     @Override
     @DeleteMapping(value = "/{id:\\d+}")
-    @Operation(summary = "Delete the tag")
+    @ApiOperation(value = "Delete the tag")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Successfully deleted the tag"),
-            @ApiResponse(responseCode = "404", description = "Tag does not exist")})
+            @ApiResponse(code = 204, message = "Successfully deleted the tag"),
+            @ApiResponse(code = 404, message = "Tag does not exist")})
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(@PathVariable Long id) {
         this.tagService.deleteById(id);
@@ -98,11 +98,11 @@ public class TagController implements BaseController<TagCreateDto, TagResponseDt
 
     @Override
     @PatchMapping(value = "/{id:\\d+}")
-    @Operation(summary = "Update the tag")
+    @ApiOperation(value = "Update the tag")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully updated the tag"),
-            @ApiResponse(responseCode = "400", description = "Invalid parameters supplied"),
-            @ApiResponse(responseCode = "404", description = "Tag does not exist")})
+            @ApiResponse(code = 200, message = "Successfully updated the tag"),
+            @ApiResponse(code = 400, message = "Invalid parameters supplied"),
+            @ApiResponse(code = 404, message = "Tag does not exist")})
     @ResponseStatus(HttpStatus.OK)
     public TagResponseDto patchById(@PathVariable Long id, @Valid @RequestBody TagCreateDto updateRequest) {
         return this.tagService.update(id, updateRequest);

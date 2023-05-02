@@ -6,16 +6,15 @@ import com.mjc.school.service.BaseService;
 import com.mjc.school.service.ExtraAuthorService;
 import com.mjc.school.service.dto.AuthorCreateDto;
 import com.mjc.school.service.dto.AuthorResponseDto;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Validated
@@ -34,10 +33,10 @@ public class AuthorController implements BaseController<AuthorCreateDto, AuthorR
 
     @Override
     @GetMapping
-    @Operation(summary = "Get all authors")
+    @ApiOperation(value = "Get all authors")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved authors"),
-            @ApiResponse(responseCode = "400", description = "Invalid parameters supplied")})
+            @ApiResponse(code = 200, message = "Successfully retrieved authors"),
+            @ApiResponse(code = 400, message = "Invalid parameters supplied")})
     @ResponseStatus(HttpStatus.OK)
     public List<AuthorResponseDto> readAll(@RequestParam(defaultValue = "1", required = false) Integer page,
                                            @RequestParam(defaultValue = "10", required = false) Integer size,
@@ -47,10 +46,10 @@ public class AuthorController implements BaseController<AuthorCreateDto, AuthorR
 
     @Override
     @GetMapping(value = "/{id:\\d+}")
-    @Operation(summary = "Get author by id")
+    @ApiOperation(value = "Get author by id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved the author"),
-            @ApiResponse(responseCode = "404", description = "Author was not found")})
+            @ApiResponse(code = 200, message = "Successfully retrieved the author"),
+            @ApiResponse(code = 404, message = "Author was not found")})
     @ResponseStatus(HttpStatus.OK)
     public AuthorResponseDto readById(@PathVariable Long id) {
         return this.authorService.readById(id);
@@ -58,10 +57,10 @@ public class AuthorController implements BaseController<AuthorCreateDto, AuthorR
 
     @Override
     @GetMapping(value = "/byName/{name}")
-    @Operation(summary = "Get author by name")
+    @ApiOperation(value = "Get author by name")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved the author"),
-            @ApiResponse(responseCode = "404", description = "Author was not found")})
+            @ApiResponse(code = 200, message = "Successfully retrieved the author"),
+            @ApiResponse(code = 404, message = "Author was not found")})
     @ResponseStatus(HttpStatus.OK)
     public List<AuthorResponseDto> readByName(@PathVariable String name) {
         return this.extraAuthorService.readByName(name);
@@ -69,10 +68,10 @@ public class AuthorController implements BaseController<AuthorCreateDto, AuthorR
 
     @Override
     @PostMapping()
-    @Operation(summary = "Create an author")
+    @ApiOperation(value = "Create an author")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Successfully created the author"),
-            @ApiResponse(responseCode = "400", description = "Invalid parameters supplied")})
+            @ApiResponse(code = 201, message = "Successfully created the author"),
+            @ApiResponse(code = 400, message = "Invalid parameters supplied")})
     @ResponseStatus(HttpStatus.CREATED)
     public AuthorResponseDto create(@Valid @RequestBody AuthorCreateDto createRequest) {
         return this.authorService.create(createRequest);
@@ -80,11 +79,11 @@ public class AuthorController implements BaseController<AuthorCreateDto, AuthorR
 
     @Override
     @PutMapping(value = "/{id:\\d+}")
-    @Operation(summary = "Update the author")
+    @ApiOperation(value = "Update the author")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully updated the author"),
-            @ApiResponse(responseCode = "400", description = "Invalid parameters supplied"),
-            @ApiResponse(responseCode = "404", description = "Author does not exist")})
+            @ApiResponse(code = 200, message = "Successfully updated the author"),
+            @ApiResponse(code = 400, message = "Invalid parameters supplied"),
+            @ApiResponse(code = 404, message = "Author does not exist")})
     @ResponseStatus(HttpStatus.OK)
     public AuthorResponseDto update(@PathVariable Long id, @Valid @RequestBody AuthorCreateDto updateRequest) {
         return this.authorService.update(id, updateRequest);
@@ -92,10 +91,10 @@ public class AuthorController implements BaseController<AuthorCreateDto, AuthorR
 
     @Override
     @DeleteMapping(value = "/{id:\\d+}")
-    @Operation(summary = "Delete the author")
+    @ApiOperation(value = "Delete the author")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Successfully deleted the author"),
-            @ApiResponse(responseCode = "404", description = "Author does not exist")})
+            @ApiResponse(code = 204, message = "Successfully deleted the author"),
+            @ApiResponse(code = 404, message = "Author does not exist")})
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(@PathVariable Long id) {
         this.authorService.deleteById(id);
@@ -103,11 +102,11 @@ public class AuthorController implements BaseController<AuthorCreateDto, AuthorR
 
     @Override
     @PatchMapping(value = "/{id:\\d+}")
-    @Operation(summary = "Update the author")
+    @ApiOperation(value = "Update the author")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully updated the author"),
-            @ApiResponse(responseCode = "400", description = "Invalid parameters supplied"),
-            @ApiResponse(responseCode = "404", description = "Author does not exist")})
+            @ApiResponse(code = 200, message = "Successfully updated the author"),
+            @ApiResponse(code = 400, message = "Invalid parameters supplied"),
+            @ApiResponse(code = 404, message = "Author does not exist")})
     @ResponseStatus(HttpStatus.OK)
     public AuthorResponseDto patchById(@PathVariable Long id, @Valid @RequestBody AuthorCreateDto updateRequest) {
         return this.authorService.update(id, updateRequest);

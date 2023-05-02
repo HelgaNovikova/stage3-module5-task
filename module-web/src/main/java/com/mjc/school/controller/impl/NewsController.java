@@ -8,9 +8,9 @@ import com.mjc.school.service.dto.AuthorResponseDto;
 import com.mjc.school.service.dto.NewsCreateDto;
 import com.mjc.school.service.dto.NewsResponseDto;
 import com.mjc.school.service.dto.TagResponseDto;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -33,10 +33,10 @@ public class NewsController implements BaseController<NewsCreateDto, NewsRespons
 
     @Override
     @GetMapping
-    @Operation(summary = "Get all news")
+    @ApiOperation(value = "Get all news")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved news"),
-            @ApiResponse(responseCode = "400", description = "Invalid parameters supplied")})
+            @ApiResponse(code = 200, message = "Successfully retrieved news"),
+            @ApiResponse(code = 400, message = "Invalid parameters supplied")})
     @ResponseStatus(HttpStatus.OK)
     public List<NewsResponseDto> readAll(@RequestParam(defaultValue = "1", required = false) Integer page,
                                          @RequestParam(defaultValue = "10", required = false) Integer size,
@@ -46,10 +46,10 @@ public class NewsController implements BaseController<NewsCreateDto, NewsRespons
 
     @Override
     @GetMapping(value = "/{id:\\d+}")
-    @Operation(summary = "Get news by id")
+    @ApiOperation(value = "Get news by id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved the news"),
-            @ApiResponse(responseCode = "404", description = "News was not found")})
+            @ApiResponse(code = 200, message = "Successfully retrieved the news"),
+            @ApiResponse(code = 404, message = "News was not found")})
     @ResponseStatus(HttpStatus.OK)
     public NewsResponseDto readById(@PathVariable Long id) {
         return this.newsService.readById(id);
@@ -57,10 +57,10 @@ public class NewsController implements BaseController<NewsCreateDto, NewsRespons
 
     @Override
     @PostMapping()
-    @Operation(summary = "Create a news")
+    @ApiOperation(value = "Create a news")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Successfully created the news"),
-            @ApiResponse(responseCode = "400", description = "Invalid parameters supplied")})
+            @ApiResponse(code = 201, message = "Successfully created the news"),
+            @ApiResponse(code = 400, message = "Invalid parameters supplied")})
     @ResponseStatus(HttpStatus.CREATED)
     public NewsResponseDto create(@Valid @RequestBody NewsCreateDto createRequest) {
         return this.newsService.create(createRequest);
@@ -68,11 +68,11 @@ public class NewsController implements BaseController<NewsCreateDto, NewsRespons
 
     @Override
     @PutMapping(value = "/{id:\\d+}")
-    @Operation(summary = "Update the news")
+    @ApiOperation(value = "Update the news")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully updated the news"),
-            @ApiResponse(responseCode = "400", description = "Invalid parameters supplied"),
-            @ApiResponse(responseCode = "404", description = "News does not exist")})
+            @ApiResponse(code = 200, message = "Successfully updated the news"),
+            @ApiResponse(code = 400, message = "Invalid parameters supplied"),
+            @ApiResponse(code = 404, message = "News does not exist")})
     @ResponseStatus(HttpStatus.OK)
     public NewsResponseDto update(@PathVariable Long id, @Valid @RequestBody NewsCreateDto updateRequest) {
         return this.newsService.update(id, updateRequest);
@@ -80,10 +80,10 @@ public class NewsController implements BaseController<NewsCreateDto, NewsRespons
 
     @Override
     @DeleteMapping(value = "/{id:\\d+}")
-    @Operation(summary = "Delete the news")
+    @ApiOperation(value = "Delete the news")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Successfully deleted the news"),
-            @ApiResponse(responseCode = "404", description = "News does not exist")})
+            @ApiResponse(code = 204, message = "Successfully deleted the news"),
+            @ApiResponse(code = 404, message = "News does not exist")})
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(@PathVariable Long id) {
         this.newsService.deleteById(id);
@@ -91,11 +91,11 @@ public class NewsController implements BaseController<NewsCreateDto, NewsRespons
 
     @Override
     @PatchMapping(value = "/{id:\\d+}")
-    @Operation(summary = "Update the news")
+    @ApiOperation(value = "Update the news")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully updated the news"),
-            @ApiResponse(responseCode = "400", description = "Invalid parameters supplied"),
-            @ApiResponse(responseCode = "404", description = "News does not exist")})
+            @ApiResponse(code = 200, message = "Successfully updated the news"),
+            @ApiResponse(code = 400, message = "Invalid parameters supplied"),
+            @ApiResponse(code = 404 , message = "News does not exist")})
     @ResponseStatus(HttpStatus.OK)
     public NewsResponseDto patchById(@PathVariable Long id, @Valid @RequestBody NewsCreateDto createRequest) {
         return this.newsService.patchById(id, createRequest);
@@ -103,10 +103,10 @@ public class NewsController implements BaseController<NewsCreateDto, NewsRespons
 
     @Override
     @GetMapping(value = "/{id:\\d+}/authors")
-    @Operation(summary = "Get author by newsId")
+    @ApiOperation(value = "Get author by newsId")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved the author"),
-            @ApiResponse(responseCode = "404", description = "News does not exist")})
+            @ApiResponse(code = 200, message = "Successfully retrieved the author"),
+            @ApiResponse(code = 404, message = "News does not exist")})
     @ResponseStatus(HttpStatus.OK)
     public AuthorResponseDto readAuthorByNewsId(@PathVariable Long id) {
         return this.extraNewsService.readAuthorByNewsId(id);
@@ -114,10 +114,10 @@ public class NewsController implements BaseController<NewsCreateDto, NewsRespons
 
     @Override
     @GetMapping(value = "/{id:\\d+}/tags")
-    @Operation(summary = "Get tags by newsId")
+    @ApiOperation(value = "Get tags by newsId")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved the tags"),
-            @ApiResponse(responseCode = "404", description = "News does not exist")})
+            @ApiResponse(code = 200, message = "Successfully retrieved the tags"),
+            @ApiResponse(code = 404, message = "News does not exist")})
     @ResponseStatus(HttpStatus.OK)
     public List<TagResponseDto> readTagsByNewsId(@PathVariable Long id) {
         return this.extraNewsService.readTagsByNewsId(id);
