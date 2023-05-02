@@ -12,6 +12,4 @@ public interface ExtraNewsController {
 
     List<TagResponseDto> readTagsByNewsId(Long id);
 
-    List<NewsResponseDto> readNewsByParams(List<Long> tagId, String tagName, String authorName, String title, String content);
-
-}
+    }

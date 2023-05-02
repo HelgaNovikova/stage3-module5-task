@@ -123,14 +123,4 @@ public class NewsController implements BaseController<NewsCreateDto, NewsRespons
         return this.extraNewsService.readTagsByNewsId(id);
     }
 
-    @Override
-    @GetMapping(value = "/get-news-by-parameters")
-    public List<NewsResponseDto> readNewsByParams(@PathVariable List<Long> tagId,
-                                                  @PathVariable String tagName,
-                                                  @PathVariable String authorName,
-                                                  @PathVariable String title,
-                                                  @PathVariable String content) {
-        return this.extraNewsService.readNewsByParams(tagId, tagName, authorName, title, content);
-    }
-
 }
