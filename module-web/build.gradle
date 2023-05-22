@@ -5,3 +5,8 @@ dependencies {
     testImplementation 'org.json:json:20230227'
 
 }
+
+
+
+sourceCompatibility = javaVersion
+targetCompatibility = javaVersion
