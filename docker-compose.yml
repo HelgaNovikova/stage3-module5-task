@@ -9,9 +9,18 @@ services:
     ports:
       - "9000:9000"
   tomcat:
-    image: tomcat
+    image: tomcat:9
     ports:
       - '8082:8080'
+
+    volumes:
+      - './tomcat/tomcat-users.xml:/opt/local/tomcat/conf/tomcat-users.xml:rw'
+#      - './tomcat/context.xml:/usr/local/tomcat/conf/Catalina/localhost/manager.xml:rw'
+      - './tomcat/context.xml:/tmp/context.xml'
+    command: >
+      bash -c "mv /usr/local/tomcat/webapps.dist /usr/local/tomcat/webapps; 
+      cp /tmp/context.xml /usr/local/tomcat/webapps/manager/META-INF/context.xml;
+      catalina.sh run"
 volumes:
   sonarqube_data:
   sonarqube_extensions:
