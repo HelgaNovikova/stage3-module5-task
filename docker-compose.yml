@@ -24,7 +24,7 @@ services:
       cp /tmp/context.xml /usr/local/tomcat/webapps/manager/META-INF/context.xml;
       catalina.sh run"
   jenkins:
-    image: jenkins/jenkins:lts
+    image: jenkins/jenkins:jdk17
     privileged: true
     user: root
     ports:
