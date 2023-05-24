@@ -23,6 +23,17 @@ services:
       mv /usr/local/tomcat/webapps.dist /usr/local/tomcat/webapps;
       cp /tmp/context.xml /usr/local/tomcat/webapps/manager/META-INF/context.xml;
       catalina.sh run"
+  jenkins:
+    image: jenkins/jenkins:lts
+    privileged: true
+    user: root
+    ports:
+      - '8080:8080'
+      - '50000:50000'
+    container_name: jenkins
+    volumes:
+      - ./jenkins:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
 volumes:
   sonarqube_data:
   sonarqube_extensions:
