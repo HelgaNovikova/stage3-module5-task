@@ -9,6 +9,7 @@ import com.mjc.school.service.BaseService;
 import com.mjc.school.service.ExtraNewsService;
 import com.mjc.school.service.dto.*;
 import com.mjc.school.service.exception.AuthorNotFoundException;
+import com.mjc.school.service.exception.DuplicateEntityException;
 import com.mjc.school.service.exception.NewsNotFoundException;
 import com.mjc.school.service.exception.TagNotFoundException;
 import com.mjc.school.service.utils.EntitiesValidator;
@@ -64,6 +65,10 @@ public class NewsServiceImpl implements ExtraNewsService, BaseService<NewsCreate
 
         List<TagModel> tagModels = createRequest.getTagIds().stream().map(s -> tagRepository.readById(s)
                 .orElseThrow(() -> new TagNotFoundException(s))).toList();
+
+        if (!extraNewsRepository.readNewsByTitle(createRequest.getTitle()).isEmpty()) {
+            throw new DuplicateEntityException();
+        }
 
         NewsModel news = NewsMapper.INSTANCE.createNewsDtoToNews(createRequest, authorModel, tagModels);
         EntitiesValidator.validateContent(news.getContent());

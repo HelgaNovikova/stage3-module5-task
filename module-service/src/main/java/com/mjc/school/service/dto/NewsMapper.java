@@ -15,7 +15,7 @@ public interface NewsMapper {
     NewsMapper INSTANCE = Mappers.getMapper(NewsMapper.class);
     String ISO_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS";
 
-   // @Mapping(target = "comments", ignore = true)
+    @Mapping(target = "comments", source = "newsComments")
     @Mapping(target = "lastUpdateDate",
             dateFormat = ISO_FORMAT)
     @Mapping(target = "createDate",
@@ -24,7 +24,7 @@ public interface NewsMapper {
     @Mapping(target = "tagIds", source = "newsTags")
     NewsResponseDto newsToNewsResponseDto(NewsModel news);
 
-    default Long toId(TagModel dto){
+    default Long toId(TagModel dto) {
         return dto.getId();
     }
 

@@ -9,6 +9,7 @@ import com.mjc.school.service.dto.AuthorCreateDto;
 import com.mjc.school.service.dto.AuthorResponseDto;
 import com.mjc.school.service.dto.NewsMapper;
 import com.mjc.school.service.exception.AuthorNotFoundException;
+import com.mjc.school.service.exception.DuplicateEntityException;
 import com.mjc.school.service.utils.EntitiesValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,6 +57,9 @@ public class AuthorServiceImpl implements BaseService<AuthorCreateDto, AuthorRes
     @Override
     @Transactional
     public AuthorResponseDto create(AuthorCreateDto createRequest) {
+        if (!extraAuthorRepository.readByName(createRequest.getName()).isEmpty()) {
+            throw new DuplicateEntityException();
+        }
         AuthorModel authorModel = NewsMapper.INSTANCE.createAuthorDtoToAuthor(createRequest);
         EntitiesValidator.validateAuthor(createRequest.getName());
         return NewsMapper.INSTANCE.authorToAuthorResponseDto(authorRepository.create(authorModel));
@@ -66,6 +70,9 @@ public class AuthorServiceImpl implements BaseService<AuthorCreateDto, AuthorRes
     public AuthorResponseDto update(Long id, AuthorCreateDto updateRequest) {
         if (!authorRepository.existById(id)) {
             throw new AuthorNotFoundException(id);
+        }
+        if (!extraAuthorRepository.readByName(updateRequest.getName()).isEmpty()) {
+            throw new DuplicateEntityException();
         }
         Optional<AuthorModel> author = authorRepository.readById(id);
         LocalDateTime createDate = author.orElseThrow().getCreateDate();

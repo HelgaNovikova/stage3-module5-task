@@ -1,6 +1,7 @@
 package com.mjc.school.controller;
 
 import com.mjc.school.service.dto.AuthorResponseDto;
+import com.mjc.school.service.dto.CommentResponseDto;
 import com.mjc.school.service.dto.NewsResponseDto;
 import com.mjc.school.service.dto.TagResponseDto;
 
@@ -12,4 +13,6 @@ public interface ExtraNewsController {
 
     List<TagResponseDto> readTagsByNewsId(Long id);
 
-    }
+    List<CommentResponseDto> getCommentsByNewsId(Long id);
+
+}

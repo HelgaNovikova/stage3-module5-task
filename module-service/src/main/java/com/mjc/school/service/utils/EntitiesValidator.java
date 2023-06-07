@@ -45,7 +45,7 @@ public class EntitiesValidator {
 
     public static void validateAuthor(String author) {
         if (!isAuthorValid(author)) {
-            throw new AuthorLengthException(MIN_AUTHOR_LENGTH, MAX_AUTHOR_LENGTH, author);
+           throw new AuthorLengthException(MIN_AUTHOR_LENGTH, MAX_AUTHOR_LENGTH, author);
         }
     }
 

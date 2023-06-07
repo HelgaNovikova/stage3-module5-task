@@ -8,6 +8,7 @@ import com.mjc.school.service.ExtraTagService;
 import com.mjc.school.service.dto.NewsMapper;
 import com.mjc.school.service.dto.TagCreateDto;
 import com.mjc.school.service.dto.TagResponseDto;
+import com.mjc.school.service.exception.DuplicateEntityException;
 import com.mjc.school.service.exception.TagNotFoundException;
 import com.mjc.school.service.utils.EntitiesValidator;
 import org.springframework.stereotype.Service;
@@ -50,6 +51,9 @@ public class TagServiceImp implements BaseService<TagCreateDto, TagResponseDto, 
     @Override
     @Transactional
     public TagResponseDto create(TagCreateDto createRequest) {
+        if (!extraTagRepository.readByName(createRequest.getName()).isEmpty()) {
+            throw new DuplicateEntityException();
+        }
         TagModel tagModel = NewsMapper.INSTANCE.createTagDtoToTag(createRequest);
         EntitiesValidator.validateTag(createRequest.getName());
         return NewsMapper.INSTANCE.tagToTagResponseDto(tagRepository.create(tagModel));
@@ -60,6 +64,9 @@ public class TagServiceImp implements BaseService<TagCreateDto, TagResponseDto, 
     public TagResponseDto update(Long id, TagCreateDto updateRequest) {
         if (!tagRepository.existById(id)) {
             throw new TagNotFoundException(id);
+        }
+        if (!extraTagRepository.readByName(updateRequest.getName()).isEmpty()) {
+            throw new DuplicateEntityException();
         }
         EntitiesValidator.validateTag(updateRequest.getName());
         TagModel tagModel = NewsMapper.INSTANCE.createTagDtoToTag(updateRequest);

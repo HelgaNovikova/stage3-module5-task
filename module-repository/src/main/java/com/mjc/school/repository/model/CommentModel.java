@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 public class CommentModel implements BaseEntity<Long> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "content")
@@ -32,8 +32,7 @@ public class CommentModel implements BaseEntity<Long> {
         this.news = news;
     }
 
-    public CommentModel(Long id, String content, LocalDateTime createDate, LocalDateTime lastUpdateDate, NewsModel news) {
-        this.id = id;
+    public CommentModel(String content, LocalDateTime createDate, LocalDateTime lastUpdateDate, NewsModel news) {
         this.content = content;
         this.createDate = createDate;
         this.lastUpdateDate = lastUpdateDate;

@@ -85,4 +85,10 @@ public class CommentRepository implements BaseRepository<CommentModel, Long>, Ex
                 .setParameter("newsId", id)
                 .getResultList();
     }
+
+    public void saveCommentToDB(CommentModel comment) {
+        transactionTemplate.executeWithoutResult(s ->
+                entityManager.merge(comment)
+        );
+    }
 }

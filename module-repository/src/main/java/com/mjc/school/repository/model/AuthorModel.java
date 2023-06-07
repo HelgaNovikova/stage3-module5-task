@@ -1,19 +1,21 @@
 package com.mjc.school.repository.model;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-@Table(name="Author")
+@Table(name = "Author")
 public class AuthorModel implements BaseEntity<Long> {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="name", unique = true)
+    @Column(name = "name", unique = true)
     private String name;
 
     @Column(name = "createDate")
@@ -46,9 +48,8 @@ public class AuthorModel implements BaseEntity<Long> {
         this.lastUpdateDate = lastUpdateDate;
     }
 
-    public AuthorModel(Long id, String name, LocalDateTime createDate, LocalDateTime lastUpdateDate) {
+    public AuthorModel(String name, LocalDateTime createDate, LocalDateTime lastUpdateDate) {
         this.createDate = createDate;
-        this.id = id;
         this.lastUpdateDate = lastUpdateDate;
         this.name = name;
     }

@@ -2,8 +2,30 @@ package com.mjc.school.service.exception;
 
 public class TitleLengthException extends RuntimeException {
 
-    public TitleLengthException(int minLength, int maxLength, String title) {
+    public int getMinLength() {
+        return minLength;
+    }
 
-        super(String.format("News title can not be less than %d and more than %d symbols. News title is %s", minLength, maxLength, title));
+    public int getMaxLength() {
+        return maxLength;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    private final int minLength;
+    private final int maxLength;
+    private final String comment;
+
+    public String getCode() {
+        return "40005";
+    }
+
+    public TitleLengthException(int minLength, int maxLength, String comment) {
+        super();
+        this.minLength = minLength;
+        this.maxLength = maxLength;
+        this.comment = comment;
     }
 }

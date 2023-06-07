@@ -9,7 +9,7 @@ import java.util.List;
 public class NewsModel implements BaseEntity<Long> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true)
@@ -34,27 +34,46 @@ public class NewsModel implements BaseEntity<Long> {
             inverseJoinColumns = @JoinColumn(name = "newsId"))
     private List<TagModel> newsTags;
 
+    @OneToMany(mappedBy = "news")
+    private List<CommentModel> newsComments;
+
     public NewsModel() {
     }
 
-    public NewsModel(Long id, String title, String content, LocalDateTime createDate, LocalDateTime lastUpdateDate, AuthorModel author) {
-        this.id = id;
+    public NewsModel(String title, String content, LocalDateTime createDate, LocalDateTime lastUpdateDate, AuthorModel author) {
         this.title = title;
         this.content = content;
         this.createDate = createDate;
         this.lastUpdateDate = lastUpdateDate;
         this.author = author;
-        this.newsTags = null;
     }
 
-    public NewsModel(Long id, String title, String content, LocalDateTime createDate, LocalDateTime lastUpdateDate, AuthorModel author, List<TagModel> newsTags) {
-        this.id = id;
+    public List<CommentModel> getNewsComments() {
+        return newsComments;
+    }
+
+    public void setNewsComments(List<CommentModel> newsComments) {
+        this.newsComments = newsComments;
+    }
+
+    public NewsModel(String title, String content, LocalDateTime createDate, LocalDateTime lastUpdateDate, AuthorModel author, List<TagModel> newsTags) {
         this.title = title;
         this.content = content;
         this.createDate = createDate;
         this.lastUpdateDate = lastUpdateDate;
         this.author = author;
         this.newsTags = newsTags;
+    }
+
+    public NewsModel(String title, String content, LocalDateTime createDate, LocalDateTime lastUpdateDate,
+                     AuthorModel author, List<TagModel> newsTags, List<CommentModel> newsComments) {
+        this.title = title;
+        this.content = content;
+        this.createDate = createDate;
+        this.lastUpdateDate = lastUpdateDate;
+        this.author = author;
+        this.newsTags = newsTags;
+        this.newsComments = newsComments;
     }
 
     public List<TagModel> getNewsTags() {

@@ -1,7 +1,6 @@
 package com.mjc.school.controller.impl;
 
 import com.mjc.school.controller.BaseController;
-import com.mjc.school.controller.ExtraCommentController;
 import com.mjc.school.service.BaseService;
 import com.mjc.school.service.ExtraCommentService;
 import com.mjc.school.service.dto.CommentCreateDto;
@@ -18,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/comments")
-public class CommentController implements BaseController<CommentCreateDto, CommentResponseDto, Long>, ExtraCommentController {
+public class CommentController implements BaseController<CommentCreateDto, CommentResponseDto, Long>{
 
     private final BaseService<CommentCreateDto, CommentResponseDto, Long> commentService;
     private final ExtraCommentService extraCommentService;
@@ -100,14 +99,4 @@ public class CommentController implements BaseController<CommentCreateDto, Comme
         return this.commentService.patchById(id, createRequest);
     }
 
-    @Override
-    @GetMapping(value = "/by-news-id/{id:\\d+}")
-    @ApiOperation(value = "Get comments by newsId")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully retrieved the comments"),
-            @ApiResponse(code = 404, message = "News does not exist")})
-    @ResponseStatus(HttpStatus.OK)
-    public List<CommentResponseDto> getCommentsByNewsId(@PathVariable Long id) {
-        return this.extraCommentService.getCommentsByNewsId(id);
-    }
 }

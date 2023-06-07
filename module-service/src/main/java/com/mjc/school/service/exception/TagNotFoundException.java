@@ -2,8 +2,18 @@ package com.mjc.school.service.exception;
 
 public class TagNotFoundException extends RuntimeException {
 
-    public TagNotFoundException(Long id) {
+    public String getCode() {
+        return "40404";
+    }
 
-        super("Tag with id " + id + " does not exist.");
+    private final Long id;
+
+    public Long getId() {
+        return id;
+    }
+
+    public TagNotFoundException(Long id) {
+        super();
+        this.id = id;
     }
 }

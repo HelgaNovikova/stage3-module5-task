@@ -2,14 +2,12 @@ package com.mjc.school.repository.impl;
 
 import com.mjc.school.repository.BaseRepository;
 import com.mjc.school.repository.ExtraTagRepository;
-import com.mjc.school.repository.model.AuthorModel;
 import com.mjc.school.repository.model.TagModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.persistence.EntityManager;
-import javax.swing.text.html.HTML;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -28,9 +26,8 @@ public class TagRepository implements BaseRepository<TagModel, Long>, ExtraTagRe
         this.transactionTemplate = transactionTemplate;
     }
 
-    public void saveTagToDB(TagModel tag) {
-        transactionTemplate.executeWithoutResult(s ->
-                entityManager.merge(tag)
+    public TagModel saveTagToDB(TagModel tag) {
+        return transactionTemplate.execute(s -> entityManager.merge(tag)
         );
     }
 

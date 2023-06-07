@@ -7,4 +7,6 @@ import java.util.List;
 public interface ExtraNewsRepository {
 
     List<NewsModel> readNewsByParams(List<Long> tagId, String tagName, String authorName, String title, String content);
+
+    List<NewsModel> readNewsByTitle(String title);
 }

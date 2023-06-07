@@ -41,7 +41,7 @@ public class NewsServiceImplTest {
         extraNewsRepository = mock(ExtraNewsRepository.class);
         service = new NewsServiceImpl(newsRepository, authorRepository, tagRepository, extraNewsRepository);
         now = LocalDateTime.of(2023, 3, 5, 12, 0, 30);
-        news = new NewsModel(1L, "title", "content", now, now, new AuthorModel(1L, "name", now, now));
+        news = new NewsModel("title", "content", now, now, new AuthorModel("name", now, now));
     }
 
     @Test
@@ -94,9 +94,9 @@ public class NewsServiceImplTest {
     @Test
     void updatePieceOfNewsByIdDto() {
         //GIVEN
-        AuthorModel author = new AuthorModel(1L, "name", now, now);
+        AuthorModel author = new AuthorModel("name", now, now);
         NewsCreateDto dto = new NewsCreateDto(1L, "new Title", "new Content", 1L,List.of());
-        NewsModel updatedNews = new NewsModel(1L, "new Title", "new Content", now, now,
+        NewsModel updatedNews = new NewsModel("new Title", "new Content", now, now,
                 author, List.of());
         Mockito.when(newsRepository.update(any())).thenReturn(updatedNews);
         Mockito.when(authorRepository.readById(anyLong())).thenReturn(Optional.of(author));
@@ -113,9 +113,9 @@ public class NewsServiceImplTest {
     @Test
     void createPieceOfNewsDto() {
         //GIVEN
-        AuthorModel author = new AuthorModel(1L, "name", now, now);
+        AuthorModel author = new AuthorModel("name", now, now);
         NewsCreateDto dto = new NewsCreateDto("new Title", "new Content", 1L, List.of());
-        NewsModel createdNews = new NewsModel(1L, "new Title", "new Content", now, now,
+        NewsModel createdNews = new NewsModel("new Title", "new Content", now, now,
                 author);
         Mockito.when(newsRepository.create(any())).thenReturn(createdNews);
         Mockito.when(authorRepository.readById(anyLong())).thenReturn(Optional.of(author));

@@ -33,7 +33,7 @@ public class AuthorServiceImplTest {
         extraAuthorRepository = Mockito.mock(ExtraAuthorRepository.class);
         service = new AuthorServiceImpl(authorRepository, extraAuthorRepository);
         now = LocalDateTime.of(2023, 3, 5, 12, 0, 30);
-        author = new AuthorModel(1L, "name", now, now);
+        author = new AuthorModel("name", now, now);
     }
 
     @Test
@@ -81,9 +81,9 @@ public class AuthorServiceImplTest {
     @Test
     void updateAuthorByIdDto() {
         //GIVEN
-        AuthorModel author = new AuthorModel(1L, "name", now, now);
+        AuthorModel author = new AuthorModel("name", now, now);
         AuthorCreateDto dto = new AuthorCreateDto(1L, "new name", now, now);
-        AuthorModel updatedAuthor = new AuthorModel(1L, "new name", now, now);
+        AuthorModel updatedAuthor = new AuthorModel("new name", now, now);
         Mockito.when(authorRepository.update(any())).thenReturn(updatedAuthor);
         Mockito.when(authorRepository.readById(anyLong())).thenReturn(Optional.of(author));
         Mockito.when(authorRepository.existById(1L)).thenReturn(true);
@@ -98,9 +98,9 @@ public class AuthorServiceImplTest {
     @Test
     void createAuthorDto() {
         //GIVEN
-        AuthorModel author = new AuthorModel(1L, "name", now, now);
+        AuthorModel author = new AuthorModel("name", now, now);
         AuthorCreateDto dto = new AuthorCreateDto(1L, "new name", now, now);
-        AuthorModel createdAuthor = new AuthorModel(1L, "new name", now, now);
+        AuthorModel createdAuthor = new AuthorModel("new name", now, now);
         Mockito.when(authorRepository.create(any())).thenReturn(createdAuthor);
         Mockito.when(authorRepository.readById(anyLong())).thenReturn(Optional.of(author));
         AuthorResponseDto expected = getExpectedAuthorResponseDto(dto.getId(), dto.getName());

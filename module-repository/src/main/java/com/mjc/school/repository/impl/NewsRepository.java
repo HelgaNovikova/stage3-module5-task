@@ -24,6 +24,8 @@ public class NewsRepository implements BaseRepository<NewsModel, Long>, ExtraNew
 
     public static final String SELECT_ALL_NEWS = "select n from NewsModel n";
     private static final String SELECT_ALL_NEWS_ORDER_BY = "select n from NewsModel n order by ";
+
+    private static final String SELECT_NEWS_BY_TITLE = "select n from NewsModel n where title  like '%";
     private final TransactionTemplate transactionTemplate;
     EntityManager entityManager;
 
@@ -33,8 +35,8 @@ public class NewsRepository implements BaseRepository<NewsModel, Long>, ExtraNew
         this.transactionTemplate = transactionTemplate;
     }
 
-    public void saveNewsToDB(NewsModel news) {
-        transactionTemplate.executeWithoutResult(s -> entityManager.merge(news));
+    public NewsModel saveNewsToDB(NewsModel news) {
+        return transactionTemplate.execute(s -> entityManager.merge(news));
     }
 
     @Override
@@ -118,5 +120,11 @@ public class NewsRepository implements BaseRepository<NewsModel, Long>, ExtraNew
 
         Query q = entityManager.createQuery(select);
         return (List<NewsModel>) q.getResultList();
+    }
+
+    @Override
+    public List<NewsModel> readNewsByTitle(String title) {
+        String request = SELECT_NEWS_BY_TITLE + title + "%'";
+        return entityManager.createQuery(request, NewsModel.class).getResultList();
     }
 }

@@ -3,20 +3,22 @@ package com.mjc.school.controller.impl;
 import com.mjc.school.controller.BaseController;
 import com.mjc.school.controller.ExtraNewsController;
 import com.mjc.school.service.BaseService;
+import com.mjc.school.service.ExtraCommentService;
 import com.mjc.school.service.ExtraNewsService;
-import com.mjc.school.service.dto.AuthorResponseDto;
-import com.mjc.school.service.dto.NewsCreateDto;
-import com.mjc.school.service.dto.NewsResponseDto;
-import com.mjc.school.service.dto.TagResponseDto;
+import com.mjc.school.service.dto.*;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping(value = "/news")
@@ -24,11 +26,13 @@ public class NewsController implements BaseController<NewsCreateDto, NewsRespons
 
     private final BaseService<NewsCreateDto, NewsResponseDto, Long> newsService;
     private final ExtraNewsService extraNewsService;
+    private final ExtraCommentService extraCommentService;
 
     @Autowired
-    public NewsController(BaseService<NewsCreateDto, NewsResponseDto, Long> newsService, ExtraNewsService extraNewsService) {
+    public NewsController(BaseService<NewsCreateDto, NewsResponseDto, Long> newsService, ExtraNewsService extraNewsService, ExtraCommentService extraCommentService) {
         this.newsService = newsService;
         this.extraNewsService = extraNewsService;
+        this.extraCommentService = extraCommentService;
     }
 
     @Override
@@ -52,7 +56,15 @@ public class NewsController implements BaseController<NewsCreateDto, NewsRespons
             @ApiResponse(code = 404, message = "News was not found")})
     @ResponseStatus(HttpStatus.OK)
     public NewsResponseDto readById(@PathVariable Long id) {
-        return this.newsService.readById(id);
+        Link selfLink = linkTo(NewsController.class).slash(id).withSelfRel();
+        NewsResponseDto resp = this.newsService.readById(id);
+        resp.add(selfLink);
+        Link authorLink = linkTo(methodOn(AuthorController.class)
+                .readById(resp.getAuthorId())).withRel("author");
+        resp.add(authorLink);
+        Link tagsLink = linkTo(methodOn(NewsController.class).readTagsByNewsId(id)).withRel("tags");
+        resp.add(tagsLink);
+        return resp;
     }
 
     @Override
@@ -63,7 +75,15 @@ public class NewsController implements BaseController<NewsCreateDto, NewsRespons
             @ApiResponse(code = 400, message = "Invalid parameters supplied")})
     @ResponseStatus(HttpStatus.CREATED)
     public NewsResponseDto create(@Valid @RequestBody NewsCreateDto createRequest) {
-        return this.newsService.create(createRequest);
+        NewsResponseDto resp = this.newsService.create(createRequest);
+        Link selfLink = linkTo(NewsController.class).slash(resp.getId()).withSelfRel();
+        resp.add(selfLink);
+        Link authorLink = linkTo(methodOn(AuthorController.class)
+                .readById(resp.getAuthorId())).withRel("author");
+        resp.add(authorLink);
+        Link tagsLink = linkTo(methodOn(NewsController.class).readTagsByNewsId(resp.getId())).withRel("tags");
+        resp.add(tagsLink);
+        return resp;
     }
 
     @Override
@@ -75,7 +95,15 @@ public class NewsController implements BaseController<NewsCreateDto, NewsRespons
             @ApiResponse(code = 404, message = "News does not exist")})
     @ResponseStatus(HttpStatus.OK)
     public NewsResponseDto update(@PathVariable Long id, @Valid @RequestBody NewsCreateDto updateRequest) {
-        return this.newsService.update(id, updateRequest);
+        NewsResponseDto resp = this.newsService.update(id, updateRequest);
+        Link selfLink = linkTo(NewsController.class).slash(resp.getId()).withSelfRel();
+        resp.add(selfLink);
+        Link authorLink = linkTo(methodOn(AuthorController.class)
+                .readById(resp.getAuthorId())).withRel("author");
+        resp.add(authorLink);
+        Link tagsLink = linkTo(methodOn(NewsController.class).readTagsByNewsId(id)).withRel("tags");
+        resp.add(tagsLink);
+        return resp;
     }
 
     @Override
@@ -98,7 +126,15 @@ public class NewsController implements BaseController<NewsCreateDto, NewsRespons
             @ApiResponse(code = 404 , message = "News does not exist")})
     @ResponseStatus(HttpStatus.OK)
     public NewsResponseDto patchById(@PathVariable Long id, @Valid @RequestBody NewsCreateDto createRequest) {
-        return this.newsService.patchById(id, createRequest);
+        NewsResponseDto resp = this.newsService.patchById(id, createRequest);
+        Link selfLink = linkTo(NewsController.class).slash(resp.getId()).withSelfRel();
+        resp.add(selfLink);
+        Link authorLink = linkTo(methodOn(AuthorController.class)
+                .readById(resp.getAuthorId())).withRel("author");
+        resp.add(authorLink);
+        Link tagsLink = linkTo(methodOn(NewsController.class).readTagsByNewsId(id)).withRel("tags");
+        resp.add(tagsLink);
+        return resp;
     }
 
     @Override
@@ -123,4 +159,14 @@ public class NewsController implements BaseController<NewsCreateDto, NewsRespons
         return this.extraNewsService.readTagsByNewsId(id);
     }
 
+    @Override
+    @GetMapping(value = "/{id:\\d+}/comments")
+    @ApiOperation(value = "Get comments by newsId")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully retrieved the comments"),
+            @ApiResponse(code = 404, message = "News does not exist")})
+    @ResponseStatus(HttpStatus.OK)
+    public List<CommentResponseDto> getCommentsByNewsId(@PathVariable Long id) {
+        return this.extraCommentService.getCommentsByNewsId(id);
+    }
 }

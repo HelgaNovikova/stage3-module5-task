@@ -8,25 +8,14 @@ import java.util.List;
 public class TagModel implements BaseEntity<Long> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "name", unique = true)
     private String name;
 
-    @ManyToMany(mappedBy = "newsTags")
-    private List<NewsModel> newsModel;
-
-    public TagModel(Long id, String name) {
-        this.id = id;
+    public TagModel( String name) {
         this.name = name;
-        this.newsModel = null;
-    }
-
-    public TagModel(Long id, String name, List<NewsModel> newsModel) {
-        this.id = id;
-        this.name = name;
-        this.newsModel = newsModel;
     }
 
     public TagModel() {

@@ -1,9 +1,11 @@
 package com.mjc.school.service.dto;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import java.util.List;
 import java.util.Objects;
 
-public class NewsResponseDto {
+public class NewsResponseDto extends RepresentationModel<NewsResponseDto> {
     private long id;
     private String title;
     private String content;
@@ -11,15 +13,15 @@ public class NewsResponseDto {
     private String lastUpdateDate;
     private long authorId;
     private List<Long> tagIds;
-  //  private List<String> comments;
+    private List<CommentResponseDto> comments;
 
-//    public List<String> getComments() {
-//        return comments;
-//    }
-//
-//    public void setComments(List<String> comments) {
-//        this.comments = comments;
-//    }
+    public List<CommentResponseDto> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<CommentResponseDto> comments) {
+        this.comments = comments;
+    }
 
     public List<Long> getTagIds() {
         return tagIds;

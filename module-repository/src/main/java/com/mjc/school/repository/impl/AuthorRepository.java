@@ -29,8 +29,8 @@ public class AuthorRepository implements BaseRepository<AuthorModel, Long>, Extr
         this.newsRepository = newsRepository;
     }
 
-    public void saveAuthorToDB(AuthorModel author) {
-        transactionTemplate.executeWithoutResult(s -> entityManager.merge(author));
+    public AuthorModel saveAuthorToDB(AuthorModel author) {
+        return transactionTemplate.execute(s -> entityManager.merge(author));
     }
 
     @Override
