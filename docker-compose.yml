@@ -1,0 +1,40 @@
+version: "3"
+services:
+  sonarqube:
+    image: sonarqube:community
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_extensions:/opt/sonarqube/extensions
+      - sonarqube_logs:/opt/sonarqube/logs
+    ports:
+      - "9000:9000"
+  tomcat:
+    image: tomcat:9
+    ports:
+      - '8082:8080'
+
+    volumes:
+      - './tomcat/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml:rw'
+      - './tomcat/context.xml:/tmp/context.xml'
+      - './tomcat/logs/:/usr/local/tomcat/logs'
+    command: >
+      bash -c "
+      rm /usr/local/tomcat/webapps -rf; 
+      mv /usr/local/tomcat/webapps.dist /usr/local/tomcat/webapps;
+      cp /tmp/context.xml /usr/local/tomcat/webapps/manager/META-INF/context.xml;
+      catalina.sh run"
+  jenkins:
+    image: jenkins/jenkins:jdk17
+    privileged: true
+    user: root
+    ports:
+      - '8080:8080'
+      - '50000:50000'
+    container_name: jenkins
+    volumes:
+      - ./jenkins:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+volumes:
+  sonarqube_data:
+  sonarqube_extensions:
+  sonarqube_logs:

@@ -1,0 +1,147 @@
+Started by user Olga Novikova
+Running as SYSTEM
+Building in workspace C:\ProgramData\Jenkins\.jenkins\workspace\NewsJob
+The recommended git tool is: NONE
+No credentials specified
+ > git.exe rev-parse --resolve-git-dir C:\ProgramData\Jenkins\.jenkins\workspace\NewsJob\.git # timeout=10
+Fetching changes from the remote Git repository
+ > git.exe config remote.origin.url https://github.com/HelgaNovikova/stage3-module5-task # timeout=10
+Fetching upstream changes from https://github.com/HelgaNovikova/stage3-module5-task
+ > git.exe --version # timeout=10
+ > git --version # 'git version 2.40.1.windows.1'
+ > git.exe fetch --tags --force --progress -- https://github.com/HelgaNovikova/stage3-module5-task +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git.exe rev-parse "refs/remotes/origin/jenkins^{commit}" # timeout=10
+Checking out Revision 26d6b1f04dd1f853bf9d67b9399660aef5d4a892 (refs/remotes/origin/jenkins)
+ > git.exe config core.sparsecheckout # timeout=10
+ > git.exe checkout -f 26d6b1f04dd1f853bf9d67b9399660aef5d4a892 # timeout=10
+Commit message: "make the app deploying as war"
+ > git.exe rev-list --no-walk 26d6b1f04dd1f853bf9d67b9399660aef5d4a892 # timeout=10
+[Gradle] - Launching build.
+[NewsJob] $ cmd.exe /C "C:\ProgramData\Jenkins\.jenkins\workspace\NewsJob\gradlew.bat clean build jacocoTestReport testAggregateTestReport && exit %%ERRORLEVEL%%"
+Starting a Gradle Daemon, 1 busy and 1 incompatible and 3 stopped Daemons could not be reused, use --status for details
+> Task :clean
+> Task :module-main:clean
+> Task :module-repository:clean
+> Task :module-service:clean
+> Task :module-web:clean
+> Task :compileJava NO-SOURCE
+> Task :processResources NO-SOURCE
+> Task :classes UP-TO-DATE
+> Task :jar
+> Task :assemble
+> Task :compileTestJava NO-SOURCE
+> Task :processTestResources NO-SOURCE
+> Task :testClasses UP-TO-DATE
+> Task :test NO-SOURCE
+> Task :check UP-TO-DATE
+> Task :build
+
+> Task :module-repository:compileJava
+Note: C:\ProgramData\Jenkins\.jenkins\workspace\NewsJob\module-repository\src\main\java\com\mjc\school\repository\impl\NewsRepository.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+> Task :module-repository:processResources
+> Task :module-repository:classes
+> Task :module-repository:jar
+> Task :module-service:compileJava
+> Task :module-service:processResources NO-SOURCE
+> Task :module-service:classes
+> Task :module-service:jar
+> Task :module-web:compileJava
+> Task :module-web:processResources
+> Task :module-web:classes
+> Task :module-web:jar
+> Task :module-main:compileJava NO-SOURCE
+> Task :module-main:processResources NO-SOURCE
+> Task :module-main:classes UP-TO-DATE
+> Task :module-main:jar
+> Task :module-main:startScripts
+> Task :module-main:distTar
+> Task :module-main:distZip
+> Task :module-main:assemble
+> Task :module-main:compileTestJava NO-SOURCE
+> Task :module-main:processTestResources NO-SOURCE
+> Task :module-main:testClasses UP-TO-DATE
+> Task :module-main:test NO-SOURCE
+> Task :module-main:check UP-TO-DATE
+> Task :module-main:build
+> Task :module-repository:assemble
+> Task :module-repository:compileTestJava NO-SOURCE
+> Task :module-repository:processTestResources NO-SOURCE
+> Task :module-repository:testClasses UP-TO-DATE
+> Task :module-repository:test NO-SOURCE
+> Task :module-repository:check UP-TO-DATE
+> Task :module-repository:build
+> Task :module-service:assemble
+
+> Task :module-service:compileTestJava
+Note: Some input files use unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+> Task :module-service:processTestResources NO-SOURCE
+> Task :module-service:testClasses
+
+> Task :module-service:test
+Java HotSpot(TM) 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+
+> Task :module-service:check
+> Task :module-service:build
+> Task :module-web:war
+> Task :module-web:assemble
+> Task :module-web:compileTestJava
+> Task :module-web:processTestResources
+> Task :module-web:testClasses
+
+> Task :module-web:test
+Java HotSpot(TM) 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+2023-05-24 20:13:11.711  INFO 1532 --- [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-05-24 20:13:11.712  INFO 1532 --- [ionShutdownHook] .SchemaDropperImpl$DelayedDropActionImpl : HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+2023-05-24 20:13:11.725  INFO 1532 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2023-05-24 20:13:11.733  INFO 1532 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+
+> Task :module-web:check
+> Task :module-web:build
+> Task :jacocoTestReport SKIPPED
+> Task :module-main:jacocoTestReport SKIPPED
+> Task :module-repository:jacocoTestReport SKIPPED
+> Task :module-service:jacocoTestReport
+> Task :module-web:jacocoTestReport
+> Task :testAggregateTestReport UP-TO-DATE
+
+BUILD SUCCESSFUL in 1m 53s
+27 actionable tasks: 26 executed, 1 up-to-date
+Build step 'Invoke Gradle script' changed build result to SUCCESS
+[Gradle] - Launching build.
+[NewsJob] $ cmd.exe /C "C:\ProgramData\Jenkins\.jenkins\workspace\NewsJob\gradlew.bat sonar -Dsonar.projectKey=stage3-module5-task -Dsonar.projectName=stage3-module5-task -Dsonar.host.url=http://localhost:9000 -Dsonar.token=sqp_66946a9c2880fdbe8baab3a11afd06f3a3206632 && exit %%ERRORLEVEL%%"
+> Task :compileJava NO-SOURCE
+> Task :processResources NO-SOURCE
+> Task :classes UP-TO-DATE
+> Task :compileTestJava NO-SOURCE
+> Task :module-repository:compileJava UP-TO-DATE
+> Task :module-repository:processResources UP-TO-DATE
+> Task :module-repository:classes UP-TO-DATE
+> Task :module-repository:jar UP-TO-DATE
+> Task :module-service:compileJava UP-TO-DATE
+> Task :module-service:processResources NO-SOURCE
+> Task :module-service:classes UP-TO-DATE
+> Task :module-service:jar UP-TO-DATE
+> Task :module-web:compileJava UP-TO-DATE
+> Task :module-web:processResources UP-TO-DATE
+> Task :module-web:classes UP-TO-DATE
+> Task :module-web:jar UP-TO-DATE
+> Task :module-main:compileJava NO-SOURCE
+> Task :module-main:processResources NO-SOURCE
+> Task :module-main:classes UP-TO-DATE
+> Task :module-main:compileTestJava NO-SOURCE
+> Task :module-repository:compileTestJava NO-SOURCE
+> Task :module-service:compileTestJava UP-TO-DATE
+> Task :module-web:compileTestJava UP-TO-DATE
+> Task :sonar
+
+BUILD SUCCESSFUL in 35s
+11 actionable tasks: 1 executed, 10 up-to-date
+[DeployPublisher][INFO] Attempting to deploy 1 war file(s)
+[DeployPublisher][INFO] Deploying C:\ProgramData\Jenkins\.jenkins\workspace\NewsJob\module-web\build\libs\module-web.war to container Tomcat 9.x Remote with context news-service
+  [C:\ProgramData\Jenkins\.jenkins\workspace\NewsJob\module-web\build\libs\module-web.war] is not deployed. Doing a fresh deployment.
+  Deploying [C:\ProgramData\Jenkins\.jenkins\workspace\NewsJob\module-web\build\libs\module-web.war]
+Finished: SUCCESS

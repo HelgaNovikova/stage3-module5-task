@@ -1,6 +1,10 @@
 plugins {
     id 'java'
     id 'io.spring.dependency-management' version '1.1.0'
+    id 'jacoco'
+    id "org.sonarqube" version "4.0.0.2929"
+    id 'test-report-aggregation'
+    id 'idea'
 }
 
 repositories {
@@ -11,7 +15,13 @@ wrapper {
     gradleVersion = gradlewVersion
 }
 
-
+reporting {
+    reports {
+        testAggregateTestReport(AggregateTestReport) {
+            testType = TestSuiteType.UNIT_TEST
+        }
+    }
+}
 
 subprojects {
     apply plugin: 'java'
@@ -49,7 +59,7 @@ subprojects {
 //        testImplementation "org.springframework:spring-test:$springVersion"
         testImplementation "org.junit.jupiter:junit-jupiter-api:$jupiterVersion"
         testImplementation 'org.mockito:mockito-core:5.1.1'
-        testImplementation "com.tngtech.archunit:archunit-junit5:1.0.0"
+//        testImplementation "com.tngtech.archunit:archunit-junit5:1.0.0"
         testImplementation 'org.assertj:assertj-core:3.6.1'
         testImplementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
 
